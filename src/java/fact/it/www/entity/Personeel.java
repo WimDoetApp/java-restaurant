@@ -34,6 +34,10 @@ public class Personeel implements Serializable {
     @Version
     private Long version;
     private String naam;
+    
+    public Personeel(){
+        
+    }
 
     public Long getVersion() {
         return version;

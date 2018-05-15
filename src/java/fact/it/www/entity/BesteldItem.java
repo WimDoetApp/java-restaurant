@@ -27,6 +27,16 @@ public class BesteldItem implements Serializable {
     private double toegepastePrijs;
     @ManyToOne
     private Bestelling bestelling;
+    @ManyToOne
+    private Gerecht gerecht;
+
+    public Gerecht getGerecht() {
+        return gerecht;
+    }
+
+    public void setGerecht(Gerecht gerecht) {
+        this.gerecht = gerecht;
+    }
 
     public Bestelling getBestelling() {
         return bestelling;
