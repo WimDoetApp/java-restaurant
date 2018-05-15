@@ -6,49 +6,50 @@
 package fact.it.www.entity;
 
 import java.io.Serializable;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Version;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Wim
  */
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn (name = "PERSONEELTYPE", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("Personeel")
 @Entity
-public class Personeel implements Serializable {
+public class BesteldItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Version
-    private Long version;
-    private String naam;
+    private int aantal;
+    private double toegepastePrijs;
+    @ManyToOne
+    private Bestelling bestelling;
 
-    public Long getVersion() {
-        return version;
+    public Bestelling getBestelling() {
+        return bestelling;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setBestelling(Bestelling bestelling) {
+        this.bestelling = bestelling;
     }
 
-    public String getNaam() {
-        return naam;
+    public int getAantal() {
+        return aantal;
     }
 
-    public void setNaam(String naam) {
-        this.naam = naam;
+    public void setAantal(int aantal) {
+        this.aantal = aantal;
+    }
+
+    public double getToegepastePrijs() {
+        return toegepastePrijs;
+    }
+
+    public void setToegepastePrijs(double toegepastePrijs) {
+        this.toegepastePrijs = toegepastePrijs;
     }
 
     public Long getId() {
@@ -69,10 +70,10 @@ public class Personeel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Personeel)) {
+        if (!(object instanceof BesteldItem)) {
             return false;
         }
-        Personeel other = (Personeel) object;
+        BesteldItem other = (BesteldItem) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -81,7 +82,7 @@ public class Personeel implements Serializable {
 
     @Override
     public String toString() {
-        return "fact.it.www.entity.Personeel[ id=" + id + " ]";
+        return "fact.it.www.entity.BesteldItem[ id=" + id + " ]";
     }
     
 }

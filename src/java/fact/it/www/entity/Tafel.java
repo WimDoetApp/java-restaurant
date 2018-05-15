@@ -6,49 +6,43 @@
 package fact.it.www.entity;
 
 import java.io.Serializable;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Version;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Wim
  */
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn (name = "PERSONEELTYPE", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("Personeel")
 @Entity
-public class Personeel implements Serializable {
+public class Tafel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Version
-    private Long version;
-    private String naam;
+    private String code;
+    @OneToMany(mappedBy = "tafel")
+    private List<Bestelling> bestellingen = new ArrayList<Bestelling>();
 
-    public Long getVersion() {
-        return version;
+    public List<Bestelling> getBestellingen() {
+        return bestellingen;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setBestellingen(List<Bestelling> bestellingen) {
+        this.bestellingen = bestellingen;
     }
 
-    public String getNaam() {
-        return naam;
+    public String getCode() {
+        return code;
     }
 
-    public void setNaam(String naam) {
-        this.naam = naam;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Long getId() {
@@ -69,10 +63,10 @@ public class Personeel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Personeel)) {
+        if (!(object instanceof Tafel)) {
             return false;
         }
-        Personeel other = (Personeel) object;
+        Tafel other = (Tafel) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -81,7 +75,7 @@ public class Personeel implements Serializable {
 
     @Override
     public String toString() {
-        return "fact.it.www.entity.Personeel[ id=" + id + " ]";
+        return "fact.it.www.entity.Tafel[ id=" + id + " ]";
     }
     
 }
