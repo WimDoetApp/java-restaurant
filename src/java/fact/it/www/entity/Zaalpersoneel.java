@@ -5,6 +5,7 @@
  */
 package fact.it.www.entity;
 
+import fact.it.www.beans.IngangTeller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,10 @@ public class Zaalpersoneel extends Personeel implements Serializable {
     private List<Bestelling> bestellingen = new ArrayList<Bestelling>();
     
     public Zaalpersoneel(){
-        
+    }
+
+    public Zaalpersoneel(String naam) {
+        super(naam);
     }
 
     public List<Bestelling> getBestellingen() {
@@ -36,4 +40,11 @@ public class Zaalpersoneel extends Personeel implements Serializable {
     public void setBestellingen(List<Bestelling> bestellingen) {
         this.bestellingen = bestellingen;
     }
+    
+    @Override
+    public void update() {
+     String zaalstring = "Ik ben " + getNaam() + " en ga het nodige doen om voor " + IngangTeller.getInstance().getAantal() + " klanten een tafel klaar te maken.";
+     System.out.println(zaalstring); 	 
+  }
+
 }

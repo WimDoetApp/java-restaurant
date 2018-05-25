@@ -25,7 +25,7 @@ import javax.persistence.Version;
 @DiscriminatorColumn (name = "PERSONEELTYPE", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("Personeel")
 @Entity
-public class Personeel implements Serializable {
+public abstract class Personeel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,9 +34,13 @@ public class Personeel implements Serializable {
     @Version
     private Long version;
     private String naam;
+    public abstract void update();
     
-    public Personeel(){
-        
+    public Personeel(){ 
+    }
+    
+    public Personeel(String naam){
+        this.naam = naam;
     }
 
     public Long getVersion() {

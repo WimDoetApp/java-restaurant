@@ -5,16 +5,19 @@
  */
 package fact.it.www.entity;
 
+import fact.it.www.beans.BetaalStrategie;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  *
@@ -29,11 +32,13 @@ public class Bestelling implements Serializable {
     private Long id;
     private GregorianCalendar datum;
     private boolean betaald;
+    @Transient
+    private BetaalStrategie betaalStrategie;
     @ManyToOne
     private Zaalpersoneel zaalpersoneel;
     @ManyToOne
     private Tafel tafel;
-    @OneToMany(mappedBy = "bestelling")
+    @OneToMany(mappedBy = "bestelling", cascade = CascadeType.PERSIST)
     private List<BesteldItem> besteldeItems = new ArrayList<BesteldItem>();
     
     public Bestelling(){
@@ -87,6 +92,36 @@ public class Bestelling implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public BetaalStrategie getBetaalStrategie() {
+        return betaalStrategie;
+    }
+
+    public void setBetaalStrategie(BetaalStrategie betaalStrategie) {
+        this.betaalStrategie = betaalStrategie;
+    }
+    
+    public void addItem(Gerecht gerecht, int aantal){
+        BesteldItem besteldItem = new BesteldItem();
+        besteldItem.setAantal(aantal);
+        besteldItem.setGerecht(gerecht);
+        besteldItem.setBestelling(this);
+        besteldItem.setToegepastePrijs(betaalStrategie.getToegepastePrijs(gerecht.getActuelePrijs()));
+        besteldeItems.add(besteldItem);
+    } 
+    
+    public void maakRekening(){
+        double sum = 0;
+        
+        for(BesteldItem bi : besteldeItems){
+            sum += bi.getAantal() * bi.getToegepastePrijs();
+            System.out.println(bi.getAantal() + " " + bi.getGerecht().getNaam() + " prijs " + bi.getAantal() * bi.getToegepastePrijs());
+        }
+        
+        System.out.println("---------------------");
+        System.out.println("Totaal: " + sum);
+    }
+
 
     @Override
     public int hashCode() {
