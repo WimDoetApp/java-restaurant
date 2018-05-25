@@ -24,6 +24,10 @@ import javax.persistence.OneToMany;
 public class Zaalpersoneel extends Personeel implements Serializable {
     @OneToMany(mappedBy = "zaalpersoneel")
     private List<Bestelling> bestellingen = new ArrayList<Bestelling>();
+    
+    public Zaalpersoneel(){
+        
+    }
 
     public List<Bestelling> getBestellingen() {
         return bestellingen;
@@ -31,9 +35,5 @@ public class Zaalpersoneel extends Personeel implements Serializable {
 
     public void setBestellingen(List<Bestelling> bestellingen) {
         this.bestellingen = bestellingen;
-    }
-    
-    public Zaalpersoneel(){
-        
     }
 }

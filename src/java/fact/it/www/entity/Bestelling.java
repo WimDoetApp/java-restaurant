@@ -35,6 +35,10 @@ public class Bestelling implements Serializable {
     private Tafel tafel;
     @OneToMany(mappedBy = "bestelling")
     private List<BesteldItem> besteldeItems = new ArrayList<BesteldItem>();
+    
+    public Bestelling(){
+        
+    }
 
     public Zaalpersoneel getZaalpersoneel() {
         return zaalpersoneel;

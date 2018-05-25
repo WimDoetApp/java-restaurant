@@ -29,6 +29,10 @@ public class Gerecht implements Serializable {
     private double actuelePrijs;
     @OneToMany(mappedBy = "gerecht")
     private List<BesteldItem> besteldeItems = new ArrayList<BesteldItem>();
+    
+    public Gerecht(){
+        
+    }
 
     public String getNaam() {
         return naam;

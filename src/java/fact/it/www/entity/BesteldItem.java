@@ -29,6 +29,10 @@ public class BesteldItem implements Serializable {
     private Bestelling bestelling;
     @ManyToOne
     private Gerecht gerecht;
+    
+    public BesteldItem(){
+        
+    }
 
     public Gerecht getGerecht() {
         return gerecht;

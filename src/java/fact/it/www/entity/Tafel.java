@@ -28,6 +28,10 @@ public class Tafel implements Serializable {
     private String code;
     @OneToMany(mappedBy = "tafel")
     private List<Bestelling> bestellingen = new ArrayList<Bestelling>();
+    
+    public Tafel(){
+        
+    }
 
     public List<Bestelling> getBestellingen() {
         return bestellingen;
