@@ -59,20 +59,23 @@ public class PersoneelController {
         IngangTeller klantTeller = IngangTeller.getInstance();
 
         //een paar personeelsleden
-        Zaalpersoneel jan = new Zaalpersoneel("Jan");
-        Zaalpersoneel piet = new Zaalpersoneel("Piet");
-        Keukenpersoneel serge = new Keukenpersoneel("Serge");
-        Keukenpersoneel jeroen = new Keukenpersoneel("Jeroen");
+        Zaalpersoneel arno = new Zaalpersoneel("Arno");
+        Zaalpersoneel tijmen = new Zaalpersoneel("Tijmen");
+        Keukenpersoneel tom = new Keukenpersoneel("Tom");
+        Keukenpersoneel bram = new Keukenpersoneel("Bram");
+        Zaalpersoneel dieter = new Zaalpersoneel("Dieter");
 
         //we koppelen de spelers en scheidsrechter als observer aan de bal
-        klantTeller.attachObserver(jan);
-        klantTeller.attachObserver(piet);
-        klantTeller.attachObserver(serge);
-        klantTeller.attachObserver(jeroen);
-        this.personeelFacade.create(jan);
-        this.personeelFacade.create(piet);
-        this.personeelFacade.create(serge);
-        this.personeelFacade.create(jeroen);
+        klantTeller.attachObserver(arno);
+        klantTeller.attachObserver(tijmen);
+        klantTeller.attachObserver(tom);
+        klantTeller.attachObserver(bram);
+        klantTeller.attachObserver(dieter);
+        this.personeelFacade.create(arno);
+        this.personeelFacade.create(tijmen);
+        this.personeelFacade.create(tom);
+        this.personeelFacade.create(bram);
+        this.personeelFacade.create(dieter);
 
         System.out.println("####################################################################");
         System.out.println("Na het toevoegen van de observers...");
@@ -81,8 +84,8 @@ public class PersoneelController {
         //lege lijn
         System.out.println();
         //we doen enkele observers weg
-        klantTeller.detachObserver(piet);
-        klantTeller.detachObserver(serge);
+        klantTeller.detachObserver(bram);
+        klantTeller.detachObserver(dieter);
 
         System.out.println("Na het ontkoppelen van Piet en Serge ...");
         //we veranderen de bal weer van positie
@@ -95,20 +98,20 @@ public class PersoneelController {
         IngangTeller ingangTeller = IngangTeller.getInstance();
         // een nieuw zaalpersoneelslid toevoegen   
         System.out.println("####################################################################");
-        Zaalpersoneel manu = new Zaalpersoneel("Manu");
-        ingangTeller.attachObserver(manu);
+        Zaalpersoneel johan = new Zaalpersoneel("Johan");
+        ingangTeller.attachObserver(johan);
         ingangTeller.setAantal(7);
         // we gaan manu detachen en hem als poetspersoon attachen zodat hij nog altijd kan reageren op de klantenteller maar daarbij ook kan schoonmaken
         System.out.println("####################################################################");
-        ingangTeller.detachObserver(manu);
+        ingangTeller.detachObserver(johan);
         ingangTeller.setAantal(10);
         PoetsPersoon poetsPersoon = new PoetsPersoon();
-        poetsPersoon.setPersoneel(manu);
+        poetsPersoon.setPersoneel(johan);
         poetsPersoon.schoonMaken();
         // Manu moet nu ook nog de administratie erbij nemen als iemand binnenkomt
         System.out.println("####################################################################");
         Administrator administrator = new Administrator();
-        administrator.setPersoneel(manu);
+        administrator.setPersoneel(johan);
         ingangTeller.attachObserver(administrator);
         ingangTeller.setAantal(5);
         System.out.println("####################################################################");
