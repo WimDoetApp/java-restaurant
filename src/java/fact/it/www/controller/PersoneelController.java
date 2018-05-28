@@ -12,6 +12,7 @@ import fact.it.www.dao.PersoneelFacade;
 import fact.it.www.entity.Keukenpersoneel;
 import fact.it.www.entity.Personeel;
 import fact.it.www.entity.Zaalpersoneel;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
@@ -39,6 +40,10 @@ public class PersoneelController {
      * Creates a new instance of PersoneelController
      */
     public PersoneelController() {
+    }
+    
+    public List<Personeel> findAll(){
+        return this.personeelFacade.findAll();
     }
     
     public String testSingletonPatroon() {

@@ -1,0 +1,30 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28-May-2018, 10:48:28
+    Author     : Wim
+*/
+
+body{
+    height: 100%;
+}
+
+.banner{
+    margin-top: 0px;
+    
+    background-image: url("images/banner.jpg");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:  center center;
+    background-attachment: fixed;
+    
+    height: 200px;
+}
+
+.uk-container{
+    padding-bottom: 20px;
+}
