@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -24,10 +25,16 @@ import javax.persistence.Transient;
  *
  * @author Wim
  */
-@NamedQuery(
-    name= "Bestelling.zoek",
-    query = "select b FROM Bestelling b where (b.tafel.id) = :tafelId"
-)
+@NamedQueries ({
+    @NamedQuery(
+        name= "Bestelling.zoekOpTafel",
+        query = "select b FROM Bestelling b where (b.tafel.id) = :tafelId"
+    ),
+    @NamedQuery(
+        name= "Bestelling.zoekOpDag",
+        query = "select b FROM Bestelling b where (b.datum) BETWEEN :datum AND :datum2"
+    )
+})
 @Entity
 public class Bestelling implements Serializable {
 

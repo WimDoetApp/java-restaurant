@@ -12,18 +12,19 @@ import fact.it.www.dao.PersoneelFacade;
 import fact.it.www.entity.Keukenpersoneel;
 import fact.it.www.entity.Personeel;
 import fact.it.www.entity.Zaalpersoneel;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author Wim
  */
 @Named(value = "personeelController")
-@Dependent
-public class PersoneelController {
+@SessionScoped
+public class PersoneelController implements Serializable{
 
     @EJB
     private PersoneelFacade personeelFacade;

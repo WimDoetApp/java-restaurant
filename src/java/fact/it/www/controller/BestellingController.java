@@ -13,20 +13,26 @@ import fact.it.www.dao.TafelFacade;
 import fact.it.www.entity.Bestelling;
 import fact.it.www.entity.Gerecht;
 import fact.it.www.entity.Tafel;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author Wim
  */
 @Named(value = "bestellingController")
-@Dependent
-public class BestellingController {
+@SessionScoped
+public class BestellingController implements Serializable{
 
     @EJB
     private BestellingFacade bestellingFacade;
@@ -83,15 +89,59 @@ public class BestellingController {
         this.bestellingen = bestellingen;
     }
     
+    /**
+     * Lijst van alle tafels maken
+     * @return lijst met tafels
+     */
     public List<Tafel> findAllTafels(){
         return this.tafelFacade.findAll();
     }
     
-    public String zoekBestelling(String tafelId){
+    /**
+     * Lijst van alle bestellingen maken en weergeven
+     * @return naam van de view
+     */
+    public String findAll(){
+        bestellingen = this.bestellingFacade.findAll();
+        
+        return "bestellingen";
+    }
+    
+    /**
+     * Lijst van bestellingen via query weergeven
+     * @param tafelId --> id van de tafel van de bestelling
+     * @return naam van de view
+     */
+    public String zoekOpTafel(String tafelId){
         Long tafelIdLong = Long.parseLong(tafelId);
-        bestellingen = bestellingFacade.zoek(tafelIdLong);
-        System.out.println(bestellingen);
-        return "test";
+
+        bestellingen = bestellingFacade.zoekOpTafel(tafelIdLong);
+        return "bestellingen";
+    }
+    
+    /**
+     * Lijst van bestellingen via query weergeven
+     * @param dag --> dag van de bestelling
+     * @return naam van de view
+     * @throws ParseException 
+     */
+    public String zoekOpDag(String dag) throws ParseException{
+        bestellingen = bestellingFacade.zoekOpDag(dag);
+        
+        return "bestellingen";
+    }
+    
+    /**
+     * Details over een bepaalde bestelling weergeven
+     * @param id van de bestelling
+     * @return naam van de view
+     */
+    public String findBestelling(Long id){
+        bestelling = this.bestellingFacade.find(id);
+        
+        System.out.println(bestelling.getId());
+        
+        return "detailBestelling";
     }
     
     public String createTafels(){
