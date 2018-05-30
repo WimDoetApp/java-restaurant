@@ -24,6 +24,10 @@ import javax.persistence.Transient;
  *
  * @author Wim
  */
+@NamedQuery(
+    name= "Bestelling.zoek",
+    query = "select b FROM Bestelling b where (b.tafel.id) = :tafelId"
+)
 @Entity
 public class Bestelling implements Serializable {
 

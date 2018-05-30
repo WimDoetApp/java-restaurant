@@ -6,9 +6,11 @@
 package fact.it.www.dao;
 
 import fact.it.www.entity.Bestelling;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,13 @@ public class BestellingFacade extends AbstractFacade<Bestelling> {
 
     public BestellingFacade() {
         super(Bestelling.class);
+    }
+    
+    
+    public List<Bestelling> zoek(Long tafelId) {
+        Query q = em.createNamedQuery("Bestelling.zoek");
+        q.setParameter("tafelId", tafelId);
+        return q.getResultList();
     }
     
 }

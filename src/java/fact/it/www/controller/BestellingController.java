@@ -13,7 +13,9 @@ import fact.it.www.dao.TafelFacade;
 import fact.it.www.entity.Bestelling;
 import fact.it.www.entity.Gerecht;
 import fact.it.www.entity.Tafel;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
@@ -33,6 +35,13 @@ public class BestellingController {
     @EJB
     private GerechtFacade gerechtFacade;
     private Bestelling bestelling = new Bestelling();
+    private List<Bestelling> bestellingen;
+    
+    /**
+     * Creates a new instance of BestellingController
+     */
+    public BestellingController() {
+    }
 
     public TafelFacade getTafelFacade() {
         return tafelFacade;
@@ -66,10 +75,23 @@ public class BestellingController {
         this.bestelling = bestelling;
     }
 
-    /**
-     * Creates a new instance of BestellingController
-     */
-    public BestellingController() {
+    public List<Bestelling> getBestellingen() {
+        return bestellingen;
+    }
+
+    public void setBestellingen(List<Bestelling> bestellingen) {
+        this.bestellingen = bestellingen;
+    }
+    
+    public List<Tafel> findAllTafels(){
+        return this.tafelFacade.findAll();
+    }
+    
+    public String zoekBestelling(String tafelId){
+        Long tafelIdLong = Long.parseLong(tafelId);
+        bestellingen = bestellingFacade.zoek(tafelIdLong);
+        System.out.println(bestellingen);
+        return "test";
     }
     
     public String createTafels(){
