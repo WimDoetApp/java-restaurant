@@ -37,31 +37,21 @@ and open the template in the editor.
                     </div>
                 </div>
                     
-                <!-- <div class="uk-margin">
-                    <label class="uk-form-label" for="form-select-fulldate">Maand</label> 
-                    <select class="uk-select" binding="">
-                        <option value="1">Januari</option>
-                        <option value="2">Februari</option>
-                        <option value="3">Maart</option>
-                        <option value="4">April</option>
-                        <option value="5">Mei</option>
-                        <option value="6">Juni</option>
-                        <option value="7">Juli</option>
-                        <option value="8">Augustus</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div> -->
-                
-                <!-- <div class="uk-margin">
-                    <label class="uk-form-label" for="form-select-fulldate">Jaar</label>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-maand">Maand</label>
                     <div class="uk-form-controls">
-                        <h:inputText class="uk-input" binding="">
+                        <h:inputText t:type="month" class="uk-input" id="form-select-maand" binding="#{maand}">
                         </h:inputText>
                     </div>
-                </div> -->
+                </div>
+                
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-jaar">Jaar</label>
+                    <div class="uk-form-controls">
+                        <h:inputText t:type="number" class="uk-input" id="form-select-jaar" binding="#{jaar}" t:min="1950" t:max="#{bestellingController.jaar}">
+                        </h:inputText>
+                    </div>
+                </div>
                     
                 <div class="uk-margin">
                     <div class="uk-form-controls">
@@ -75,11 +65,17 @@ and open the template in the editor.
                     </div>   
                 </div>
                     
-                <!-- <div class="uk-margin">
+                <div class="uk-margin">
                     <div class="uk-form-controls">
-                        <h:commandButton class="uk-button uk-button-primary" value="Zoek op maand" action=""/>
+                        <h:commandButton class="uk-button uk-button-primary" value="Zoek op maand" action="#{bestellingController.zoekOpMaand(maand.value)}"/>
                     </div>   
-                </div> -->
+                </div>
+                    
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <h:commandButton class="uk-button uk-button-primary" value="Zoek op jaar" action="#{bestellingController.zoekOpJaar(jaar.value)}"/>
+                    </div>   
+                </div>
                 </h:form>
             </ui:define>
         </ui:composition>

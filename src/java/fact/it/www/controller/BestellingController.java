@@ -13,12 +13,14 @@ import fact.it.www.dao.TafelFacade;
 import fact.it.www.entity.Bestelling;
 import fact.it.www.entity.Gerecht;
 import fact.it.www.entity.Tafel;
+import fact.it.www.entity.Zaalpersoneel;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -42,6 +44,8 @@ public class BestellingController implements Serializable{
     private GerechtFacade gerechtFacade;
     private Bestelling bestelling = new Bestelling();
     private List<Bestelling> bestellingen;
+    private Zaalpersoneel zaalpersoneel = new Zaalpersoneel();
+    private int jaar = Calendar.getInstance().get(Calendar.YEAR);
     
     /**
      * Creates a new instance of BestellingController
@@ -88,6 +92,22 @@ public class BestellingController implements Serializable{
     public void setBestellingen(List<Bestelling> bestellingen) {
         this.bestellingen = bestellingen;
     }
+
+    public Zaalpersoneel getZaalpersoneel() {
+        return zaalpersoneel;
+    }
+
+    public void setZaalpersoneel(Zaalpersoneel zaalpersoneel) {
+        this.zaalpersoneel = zaalpersoneel;
+    }
+
+    public int getJaar() {
+        return jaar;
+    }
+
+    public void setJaar(int jaar) {
+        this.jaar = jaar;
+    }
     
     /**
      * Lijst van alle tafels maken
@@ -131,6 +151,18 @@ public class BestellingController implements Serializable{
         return "bestellingen";
     }
     
+    public String zoekOpMaand(String maand) throws ParseException{
+        bestellingen = bestellingFacade.zoekOpMaand(maand);
+
+        return "bestellingen";
+    }
+    
+    public String zoekOpJaar(int jaar){
+        bestellingen = bestellingFacade.zoekOpJaar(jaar);
+        
+        return "bestellingen";
+    }
+    
     /**
      * Details over een bepaalde bestelling weergeven
      * @param id van de bestelling
@@ -142,6 +174,12 @@ public class BestellingController implements Serializable{
         System.out.println(bestelling.getId());
         
         return "detailBestelling";
+    }
+    
+    public String maakBestelling(Zaalpersoneel zaalpersoneel){
+        this.zaalpersoneel = zaalpersoneel;
+        
+        return "maakBestelling";
     }
     
     public String createTafels(){

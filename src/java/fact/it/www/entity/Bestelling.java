@@ -27,12 +27,20 @@ import javax.persistence.Transient;
  */
 @NamedQueries ({
     @NamedQuery(
-        name= "Bestelling.zoekOpTafel",
+        name = "Bestelling.zoekOpTafel",
         query = "select b FROM Bestelling b where (b.tafel.id) = :tafelId"
     ),
     @NamedQuery(
-        name= "Bestelling.zoekOpDag",
+        name = "Bestelling.zoekOpDag",
         query = "select b FROM Bestelling b where (b.datum) BETWEEN :datum AND :datum2"
+    ),
+    @NamedQuery(
+        name = "Bestelling.zoekOpMaand",
+        query = "select b FROM Bestelling b where extract(month from b.datum) = :maand"
+    ),
+    @NamedQuery(
+        name = "Bestelling.zoekOpJaar",
+        query = "select b FROM Bestelling b where extract(year from b.datum) = :jaar"
     )
 })
 @Entity
@@ -121,6 +129,16 @@ public class Bestelling implements Serializable {
         besteldItem.setToegepastePrijs(betaalStrategie.getToegepastePrijs(gerecht.getActuelePrijs()));
         besteldeItems.add(besteldItem);
     } 
+    
+    public double getTotal(){
+        double sum = 0;
+        
+        for(BesteldItem bi: besteldeItems){
+            sum += bi.getAantal() * bi.getToegepastePrijs();
+        }
+        
+        return sum;
+    }
     
     public void maakRekening(){
         double sum = 0;

@@ -17,6 +17,7 @@ and open the template in the editor.
         <ui:composition>
             <h1 class="uk-heading-bullet">Personeelsleden</h1>
             
+            <div class="uk-overflow-auto">
             <h:dataTable var="p" value="#{personeelController.findAll()}" class="uk-table uk-table-striped">
                 <h:column>    				
                     <f:facet name = "header">Naam</f:facet>    				
@@ -27,7 +28,16 @@ and open the template in the editor.
                     <h:outputText value="Zaalpersoneel" rendered="#{p.getClass().getSimpleName() == 'Zaalpersoneel'}"></h:outputText>
                     <h:outputText value="Keukenpersoneel" rendered="#{p.getClass().getSimpleName() == 'Keukenpersoneel'}"></h:outputText>
                 </h:column>
+                <h:column>   
+                    <h:form>
+                    <f:facet name = "header">Bestelling</f:facet>    				
+                    <div class="uk-form-controls">
+                        <h:commandButton value="Nieuwe bestelling" action="#{bestellingController.maakBestelling(p)}" class="uk-button uk-button-primary" rendered="#{p.getClass().getSimpleName() == 'Zaalpersoneel'}"/>
+                    </div>
+                    </h:form>
+                </h:column>
             </h:dataTable>
+            </div>
         </ui:composition>
     </body>
 </html>

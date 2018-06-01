@@ -16,7 +16,57 @@ and open the template in the editor.
     <body>
         <ui:composition template="index.xhtml">
         <ui:define name="content">
-            <p>#{bestellingController.bestelling.id}</p>
+            <div class="uk-overflow-auto">
+            <table class="uk-table">
+                <caption>Algemeen</caption>
+                <thead>
+                    <tr>
+                        <th>Zaalverantwoordelijke</th>
+                        <th>Datum</th>
+                        <th>Tafel</th>
+                        <th>Betaald</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#{bestellingController.bestelling.zaalpersoneel.naam}</td>
+                        <td>
+                            <h:outputText value="#{bestellingController.bestelling.datum.time}">
+                                <f:convertDateTime type="both" dateStyle="long" />
+                            </h:outputText>
+                        </td>
+                        <td>#{bestellingController.bestelling.tafel.code}</td>
+                        <td>#{bestellingController.bestelling.betaald}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            
+            <h3>Bestelde items</h3>
+            
+            <div class="uk-overflow-auto">
+                <h:dataTable var="b" value="#{bestellingController.bestelling.besteldeItems}" class="uk-table uk-table-striped uk-table-hover">
+                    <h:column>    				
+                        <f:facet name = "header">Gerecht</f:facet>
+                        #{b.gerecht.naam}
+                    </h:column>
+                    <h:column>    				
+                        <f:facet name = "header">Actuele prijs</f:facet>  
+                        € #{b.gerecht.actuelePrijs}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Toegepaste prijs</f:facet>  
+                        € #{b.toegepastePrijs}
+                    </h:column>
+                    <h:column>    				
+                        <f:facet name = "header">Aantal</f:facet>   
+                        #{b.aantal}
+                    </h:column>
+                </h:dataTable>
+            </div>
+            
+            <h3>Totaalprijs:</h3>
+            <p>€ #{bestellingController.bestelling.total}</p>
         </ui:define>
         </ui:composition>
     </body>

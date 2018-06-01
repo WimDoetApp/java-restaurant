@@ -17,7 +17,8 @@ and open the template in the editor.
         <ui:composition template="index.xhtml">
         <ui:define name="content">
             <h:form>
-            <h:dataTable var="b" value="#{bestellingController.bestellingen}" class="uk-table uk-table-striped">
+            <div class="uk-overflow-auto">
+            <h:dataTable var="b" value="#{bestellingController.bestellingen}" class="uk-table uk-table-striped uk-table-hover">
                 <h:column>    				
                     <f:facet name = "header">Datum</f:facet>    				
                     <h:outputText value="#{b.datum.time}">
@@ -29,7 +30,7 @@ and open the template in the editor.
                     #{b.betaald}
                 </h:column>
                 <h:column>    				
-                    <f:facet name = "header">Verantwoordelijke</f:facet>    				
+                    <f:facet name = "header">Zaalverantwoordelijke</f:facet>    				
                     #{b.zaalpersoneel.naam}
                 </h:column>
                 <h:column>    				
@@ -39,11 +40,18 @@ and open the template in the editor.
                 <h:column>    				
                     <f:facet name = "header">Detail</f:facet>    				
                     <div class="uk-form-controls">
-                        <h:commandButton value="details" action="#{bestellingController.findBestelling(b.id)}"/>
+                        <h:commandButton value="details" action="#{bestellingController.findBestelling(b.id)}" class="uk-button uk-button-primary"/>
                     </div>
                 </h:column>
             </h:dataTable>
+            </div>
             </h:form>
+            
+            <div class="uk-margin" id="hoi">
+                <div class="uk-form-controls">
+                    <h:form><h:commandButton class="uk-button uk-button-primary" value="Terug" action="zoekBestelling"/></h:form>
+                </div>   
+            </div>
         </ui:define>
         </ui:composition>
     </body>
