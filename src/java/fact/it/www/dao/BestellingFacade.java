@@ -67,6 +67,12 @@ public class BestellingFacade extends AbstractFacade<Bestelling> {
         return q.getResultList();
     }
     
+    /**
+     * lijst van bestellingen oproepen
+     * @param maand --> maand waarop we zoeken
+     * @return lijst van bestellingen
+     * @throws ParseException 
+     */
     public List<Bestelling> zoekOpMaand(String maand) throws ParseException{
         DateFormat df = new SimpleDateFormat("yyyy-M");
         GregorianCalendar calendar = new GregorianCalendar();
@@ -79,6 +85,11 @@ public class BestellingFacade extends AbstractFacade<Bestelling> {
         return q.getResultList();
     }
     
+    /**
+     * lijst van bestellingen oproepen
+     * @param jaar --> jaar waarop we zoeken
+     * @return lijst van bestellingen
+     */
     public List<Bestelling> zoekOpJaar(int jaar){
         Query q = em.createNamedQuery("Bestelling.zoekOpJaar");
         q.setParameter("jaar", jaar);

@@ -130,6 +130,24 @@ public class Bestelling implements Serializable {
         besteldeItems.add(besteldItem);
     } 
     
+    public void removeItem(Gerecht gerecht, int aantal, double prijs){
+        List<BesteldItem> toRemove = new ArrayList<>();
+        
+        for(BesteldItem besteldItem : besteldeItems){
+            System.out.println(besteldItem.getAantal() + " --> " + aantal);
+            System.out.println(besteldItem.getToegepastePrijs()+ " --> " + prijs);
+            System.out.println(besteldItem.getGerecht()+ " --> " + gerecht);
+            
+            if(besteldItem.getAantal() == aantal && besteldItem.getToegepastePrijs() == prijs && besteldItem.getGerecht().equals(gerecht)){
+                toRemove.add(besteldItem);
+            }
+        }
+        
+        for(BesteldItem besteldItem : toRemove){
+            besteldeItems.remove(besteldItem);
+        }
+    }
+    
     public double getTotal(){
         double sum = 0;
         

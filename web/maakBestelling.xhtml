@@ -8,7 +8,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:t="http://xmlns.jcp.org/jsf/passthrough">
     <head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -17,6 +18,89 @@ and open the template in the editor.
         <ui:composition template="index.xhtml">
         <ui:define name="content">
             <h3>Bestelling maken voor #{bestellingController.zaalpersoneel.naam}</h3>
+            
+            <h:form>               
+                <h4>Gerecht toevoegen</h4>
+                
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-gerecht">Gerechten</label>
+                    <div class="uk-form-controls">
+                        <h:selectOneMenu class="uk-select" id="form-select-gerecht" binding="#{gerecht}">
+                            <f:selectItems value="#{bestellingController.findAllGerechten()}" var="g" itemLabel="#{g.naam}" itemValue="#{g.id}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-jaar">Aantal</label>
+                    <div class="uk-form-controls">
+                        <h:inputText t:type="number" class="uk-input" id="form-select-jaar" binding="#{aantal}" t:min="1">
+                        </h:inputText>
+                    </div>
+                </div>
+                
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-betaal">Betaal strategie</label>
+                    <div class="uk-form-controls">
+                        <h:selectOneMenu class="uk-select" id="form-select-betaal" binding="#{betaalStrat}">
+                            <f:selectItems value="#{bestellingController.betaalStrats}" var="b" itemLabel="#{b}" itemValue="#{b}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <h:commandButton class="uk-button uk-button-primary" value="Gerecht toevoegen" action="#{bestellingController.addGerecht(gerecht.value, aantal.value, betaalStrat.value)}"/>
+                    </div>   
+                </div>
+                
+                <h4>Bestelde items</h4>
+            
+                <div class="uk-overflow-auto">
+                    <h:dataTable var="b" value="#{bestellingController.bestelling.besteldeItems}" class="uk-table uk-table-striped uk-table-hover">
+                        <h:column>    				
+                            <f:facet name = "header">Gerecht</f:facet>
+                            #{b.gerecht.naam}
+                        </h:column>
+                        <h:column>    				
+                            <f:facet name = "header">Actuele prijs</f:facet>  
+                            € #{b.gerecht.actuelePrijs}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Toegepaste prijs</f:facet>  
+                            € #{b.toegepastePrijs}
+                        </h:column>
+                        <h:column>    				
+                            <f:facet name = "header">Aantal</f:facet>   
+                            #{b.aantal}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">verwijder</f:facet>
+                            <h:commandLink class="uk-button uk-button-primary" action="#{bestellingController.removeBesteldItem(b.gerecht.id, b.aantal, b.toegepastePrijs)}"><span uk-icon='trash'></span></h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+                
+                <h5>Totaalprijs:</h5>
+                <p>€ #{bestellingController.bestelling.total}</p>
+                
+                <h4>Tafel kiezen en bevestigen</h4>
+                
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-tafel">Tafel</label>
+                    <div class="uk-form-controls">
+                        <h:selectOneMenu class="uk-select" id="form-select-tafel" binding="#{tafel}">
+                            <f:selectItems value="#{bestellingController.findAllTafels()}" var="t" itemLabel="#{t.code}" itemValue="#{t.id}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <h:commandButton class="uk-button uk-button-primary" value="Bevestigen" action='#{bestellingController.opslaanBestelling(tafel.value)}'/>
+                    </div>   
+                </div>
+            </h:form>
         </ui:define>
         </ui:composition>
     </body>

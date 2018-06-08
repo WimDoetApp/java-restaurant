@@ -10,6 +10,7 @@ import fact.it.www.beans.NormaleBetaling;
 import fact.it.www.dao.BestellingFacade;
 import fact.it.www.dao.GerechtFacade;
 import fact.it.www.dao.TafelFacade;
+import fact.it.www.entity.BesteldItem;
 import fact.it.www.entity.Bestelling;
 import fact.it.www.entity.Gerecht;
 import fact.it.www.entity.Tafel;
@@ -20,6 +21,7 @@ import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,6 +48,9 @@ public class BestellingController implements Serializable{
     private List<Bestelling> bestellingen;
     private Zaalpersoneel zaalpersoneel = new Zaalpersoneel();
     private int jaar = Calendar.getInstance().get(Calendar.YEAR);
+    private final List<String> betaalStrats = Arrays.asList("Normaal", "Happy Hour");
+    protected HappyHourBetaling happyHourBetaling = new HappyHourBetaling();
+    protected NormaleBetaling normaleBetaling = new NormaleBetaling();
     
     /**
      * Creates a new instance of BestellingController
@@ -109,12 +114,24 @@ public class BestellingController implements Serializable{
         this.jaar = jaar;
     }
     
+    public List<String> getBetaalStrats(){
+        return betaalStrats;
+    }
+    
     /**
      * Lijst van alle tafels maken
      * @return lijst met tafels
      */
     public List<Tafel> findAllTafels(){
         return this.tafelFacade.findAll();
+    }
+    
+    /**
+     * Lijst van alle gerechten maken
+     * @return lijst met gerehcten
+     */
+    public List<Gerecht> findAllGerechten(){
+        return this.gerechtFacade.findAll();
     }
     
     /**
@@ -141,7 +158,7 @@ public class BestellingController implements Serializable{
     
     /**
      * Lijst van bestellingen via query weergeven
-     * @param dag --> dag van de bestelling
+     * @param dag --> dag van de bestellingen
      * @return naam van de view
      * @throws ParseException 
      */
@@ -151,12 +168,23 @@ public class BestellingController implements Serializable{
         return "bestellingen";
     }
     
+    /**
+     * Lijst van bestellingen via query weergeen
+     * @param maand --> maand van de bestellingen
+     * @return naam van de view
+     * @throws ParseException 
+     */
     public String zoekOpMaand(String maand) throws ParseException{
         bestellingen = bestellingFacade.zoekOpMaand(maand);
 
         return "bestellingen";
     }
     
+    /**
+     * Lijst van bestellingen via query weergeven
+     * @param jaar --> jaar van de bestellingen
+     * @return naam van de view
+     */
     public String zoekOpJaar(int jaar){
         bestellingen = bestellingFacade.zoekOpJaar(jaar);
         
@@ -165,7 +193,7 @@ public class BestellingController implements Serializable{
     
     /**
      * Details over een bepaalde bestelling weergeven
-     * @param id van de bestelling
+     * @param id --> van de bestelling
      * @return naam van de view
      */
     public String findBestelling(Long id){
@@ -176,10 +204,56 @@ public class BestellingController implements Serializable{
         return "detailBestelling";
     }
     
+    /**
+     * Naar de pagina gaan om een bestelling te maken
+     * @param zaalpersoneel --> verantwoordelijke voor de bestelling
+     * @return naam van de view
+     */
     public String maakBestelling(Zaalpersoneel zaalpersoneel){
         this.zaalpersoneel = zaalpersoneel;
         
+        bestelling = new Bestelling();
+        
         return "maakBestelling";
+    }
+    
+    public String addGerecht(int gerechtId, int aantal, String betaalStrat){      
+        Gerecht gerecht = gerechtFacade.find((long)gerechtId);
+        
+        switch(betaalStrat){
+            case "Normaal":
+                bestelling.setBetaalStrategie(normaleBetaling);
+                break;
+            case "Happy Hour":
+                bestelling.setBetaalStrategie(happyHourBetaling);
+                break;
+        }
+        
+        bestelling.addItem(gerecht, aantal);
+       
+        return "maakBestelling";
+    }
+    
+    public String removeBesteldItem(int gerechtId, int aantal, double prijs){
+        Gerecht gerecht = gerechtFacade.find((long)gerechtId);
+        
+        bestelling.removeItem(gerecht, aantal, prijs);
+        
+        return "maakBestelling";
+    }
+    
+    public String opslaanBestelling(int tafelId){
+        Tafel tafel = tafelFacade.find((long)tafelId);
+        
+        bestelling.setTafel(tafel);
+        bestelling.setZaalpersoneel(zaalpersoneel);
+        bestelling.setDatum(new GregorianCalendar());
+        
+        System.out.println(zaalpersoneel.getNaam());
+        
+        this.bestellingFacade.create(bestelling);
+        
+        return "homepage";
     }
     
     public String createTafels(){
