@@ -41,6 +41,10 @@ import javax.persistence.Transient;
     @NamedQuery(
         name = "Bestelling.zoekOpJaar",
         query = "select b FROM Bestelling b where extract(year from b.datum) = :jaar"
+    ),
+    @NamedQuery(
+        name = "Bestelling.zoekOnBetaaldPersoneelslid",
+        query = "select b FROM Bestelling b where (b.zaalpersoneel) = :zaalpersoneel and (b.betaald) = false"
     )
 })
 @Entity
@@ -121,6 +125,11 @@ public class Bestelling implements Serializable {
         this.betaalStrategie = betaalStrategie;
     }
     
+    /**
+     * Gerecht toevoegen aan de bestelling
+     * @param gerecht --> het gerecht dat we toevoegen
+     * @param aantal --> aantal keer dat we het gerecht toevoegen
+     */
     public void addItem(Gerecht gerecht, int aantal){
         BesteldItem besteldItem = new BesteldItem();
         besteldItem.setAantal(aantal);
@@ -130,6 +139,12 @@ public class Bestelling implements Serializable {
         besteldeItems.add(besteldItem);
     } 
     
+    /**
+     * Gerecht verwijderen van de bestelling
+     * @param gerecht --> het gerecht dat we willen verwijderen
+     * @param aantal --> om te checken of we wel het juiste item verwijderen
+     * @param prijs --> om te checken of we wel het juiste item verwijderen
+     */
     public void removeItem(Gerecht gerecht, int aantal, double prijs){
         List<BesteldItem> toRemove = new ArrayList<>();
         
@@ -155,7 +170,7 @@ public class Bestelling implements Serializable {
             sum += bi.getAantal() * bi.getToegepastePrijs();
         }
         
-        return sum;
+        return (double) Math.round(sum*100) / 100;
     }
     
     public void maakRekening(){

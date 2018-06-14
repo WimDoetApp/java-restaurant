@@ -29,10 +29,18 @@ and open the template in the editor.
                     <h:outputText value="Keukenpersoneel" rendered="#{p.getClass().getSimpleName() == 'Keukenpersoneel'}"></h:outputText>
                 </h:column>
                 <h:column>   
-                    <h:form>
-                    <f:facet name = "header">Bestelling</f:facet>    				
+                    <f:facet name = "header">Bestelling</f:facet>    
+                    <h:form>				
                     <div class="uk-form-controls">
                         <h:commandButton value="Nieuwe bestelling" action="#{bestellingController.maakBestelling(p)}" class="uk-button uk-button-primary" rendered="#{p.getClass().getSimpleName() == 'Zaalpersoneel'}"/>
+                    </div>
+                    </h:form>
+                </h:column>
+                <h:column>   
+                    <f:facet name = "header">Onbetaalde bestellingen</f:facet>    
+                    <h:form>				
+                    <div class="uk-form-controls">
+                        <h:commandButton value="Onbetaalde bestellingen" action="#{bestellingController.onBetaaldZaalPersoneel(p)}" class="uk-button uk-button-primary" rendered="#{p.getClass().getSimpleName() == 'Zaalpersoneel'}"/>
                     </div>
                     </h:form>
                 </h:column>

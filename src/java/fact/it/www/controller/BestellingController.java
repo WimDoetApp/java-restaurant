@@ -217,6 +217,13 @@ public class BestellingController implements Serializable{
         return "maakBestelling";
     }
     
+    /**
+     * Bestellingen van een gerecht toevoegen aan de bestellingen in aanmaking
+     * @param gerechtId --> het gekozen gerecht
+     * @param aantal --> aantal keer dat dit gerecht besteld wordt
+     * @param betaalStrat --> de gekozen betaalstrategie
+     * @return terugkeren naar de view waar we de bestelling in aan het zijn aanmaken
+     */
     public String addGerecht(int gerechtId, int aantal, String betaalStrat){      
         Gerecht gerecht = gerechtFacade.find((long)gerechtId);
         
@@ -234,6 +241,13 @@ public class BestellingController implements Serializable{
         return "maakBestelling";
     }
     
+    /**
+     * Een gerecht van een bestelling in aanmaking verwijderen
+     * @param gerechtId --> id van het te verwijderen gerecht
+     * @param aantal --> om te checken of we het juiste bestelde item verwijderen
+     * @param prijs --> om te checken of we het juiste bestelde item verwijderen
+     * @return terugkeren naar de view waar we de bestelling in aan het zijn aanmaken
+     */
     public String removeBesteldItem(int gerechtId, int aantal, double prijs){
         Gerecht gerecht = gerechtFacade.find((long)gerechtId);
         
@@ -242,6 +256,11 @@ public class BestellingController implements Serializable{
         return "maakBestelling";
     }
     
+    /**
+     * De aangemaakte bestelling opslaan in de database
+     * @param tafelId --> id van de gekozen tafel voor de bestelling
+     * @return view met overzicht van onbetaalde bestellingen van de persoon waarvoor we deze bestelling aanmaakten
+     */
     public String opslaanBestelling(int tafelId){
         Tafel tafel = tafelFacade.find((long)tafelId);
         
@@ -253,7 +272,37 @@ public class BestellingController implements Serializable{
         
         this.bestellingFacade.create(bestelling);
         
-        return "homepage";
+        bestellingen = bestellingFacade.onBetaaldPersoneelslid(zaalpersoneel);
+        
+        return "bestellingenOnBetaald";
+    }
+    
+    /**
+     * Onbetaalde bestellingen van bepaald personeelslid laten zien
+     * @param zaalpersoneel --> id van het personeelslid
+     * @return view
+     */
+    public String onBetaaldZaalPersoneel(Zaalpersoneel zaalpersoneel){
+        this.zaalpersoneel = zaalpersoneel;
+        
+        bestellingen = bestellingFacade.onBetaaldPersoneelslid(zaalpersoneel);
+        
+        return "bestellingenOnBetaald";
+    }
+    
+    /**
+     * bestelling op betaald zetten
+     * @param bestellingId --> id van de bestelling
+     * @return terugkeren naar de view waar we van komen
+     */
+    public String betaalBestelling(int bestellingId){
+        bestelling = bestellingFacade.find((long)bestellingId);
+        bestelling.setBetaald(true);
+        this.bestellingFacade.edit(bestelling);
+        
+        bestellingen = bestellingFacade.onBetaaldPersoneelslid(zaalpersoneel);
+        
+        return "bestellingenOnBetaald";
     }
     
     public String createTafels(){

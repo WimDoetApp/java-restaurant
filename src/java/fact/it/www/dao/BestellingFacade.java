@@ -6,6 +6,7 @@
 package fact.it.www.dao;
 
 import fact.it.www.entity.Bestelling;
+import fact.it.www.entity.Zaalpersoneel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,6 +94,17 @@ public class BestellingFacade extends AbstractFacade<Bestelling> {
     public List<Bestelling> zoekOpJaar(int jaar){
         Query q = em.createNamedQuery("Bestelling.zoekOpJaar");
         q.setParameter("jaar", jaar);
+        return q.getResultList();
+    }
+    
+    /**
+     * lijsten van bestellingen oproepen
+     * @param zaalpersoneel --> persoon waarop we zoeken
+     * @return lijst van bestellingen
+     */
+    public List<Bestelling> onBetaaldPersoneelslid(Zaalpersoneel zaalpersoneel){
+        Query q = em.createNamedQuery("Bestelling.zoekOnBetaaldPersoneelslid");
+        q.setParameter("zaalpersoneel", zaalpersoneel);
         return q.getResultList();
     }
 }
