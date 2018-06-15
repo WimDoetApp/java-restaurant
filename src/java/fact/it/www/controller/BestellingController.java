@@ -7,6 +7,7 @@ package fact.it.www.controller;
 
 import fact.it.www.beans.HappyHourBetaling;
 import fact.it.www.beans.NormaleBetaling;
+import fact.it.www.beans.PiekuurBetaling;
 import fact.it.www.dao.BestellingFacade;
 import fact.it.www.dao.GerechtFacade;
 import fact.it.www.dao.TafelFacade;
@@ -243,15 +244,11 @@ public class BestellingController implements Serializable{
     
     /**
      * Een gerecht van een bestelling in aanmaking verwijderen
-     * @param gerechtId --> id van het te verwijderen gerecht
-     * @param aantal --> om te checken of we het juiste bestelde item verwijderen
-     * @param prijs --> om te checken of we het juiste bestelde item verwijderen
+     * @param besteldItemId --> id van het bestelde item dat we willen verwijderen
      * @return terugkeren naar de view waar we de bestelling in aan het zijn aanmaken
      */
-    public String removeBesteldItem(int gerechtId, int aantal, double prijs){
-        Gerecht gerecht = gerechtFacade.find((long)gerechtId);
-        
-        bestelling.removeItem(gerecht, aantal, prijs);
+    public String removeBesteldItem(int besteldItemId){
+        bestelling.removeItem(besteldItemId);
         
         return "maakBestelling";
     }
@@ -303,6 +300,44 @@ public class BestellingController implements Serializable{
         bestellingen = bestellingFacade.onBetaaldPersoneelslid(zaalpersoneel);
         
         return "bestellingenOnBetaald";
+    }
+    
+    /**
+     * Testen van de uitbreiding op het strategypatroon
+     * @return de index view
+     */
+    public String testUitbreidingStrategy(){
+        //begin uitvoer
+        System.out.println("####################################################################");
+        //betaalstrategie aanmaken
+        PiekuurBetaling piekUurBetaling = new PiekuurBetaling();
+        
+        //gerecht aanmaken
+        Gerecht spaghetti = new Gerecht();
+        spaghetti.setNaam("Spaghetti");
+        spaghetti.setActuelePrijs(9);
+        gerechtFacade.create(spaghetti);
+        
+        //bestelling aanmaken
+        Bestelling bestelling = new Bestelling();
+        bestelling.setDatum(new GregorianCalendar());
+        
+        bestelling.setBetaalStrategie(normaleBetaling);
+        bestelling.addItem(spaghetti, 2);
+        
+        bestelling.setBetaalStrategie(piekUurBetaling);
+        bestelling.addItem(spaghetti, 2);
+        
+        //uitvoer rekening
+        bestelling.maakRekening();
+        
+        //opslaan in db
+        bestellingFacade.create(bestelling);
+        
+        //einduitvoer
+        System.out.println("####################################################################");
+        
+        return "index";
     }
     
     public String createTafels(){

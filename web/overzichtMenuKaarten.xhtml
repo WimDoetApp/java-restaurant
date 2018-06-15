@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:t="http://xmlns.jcp.org/jsf/passthrough">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition template="index.xhtml">
+            <ui:define name="content">
+                <h:form>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-select-jaar">jaartal</label>
+                    <div class="uk-form-controls">
+                        <h:inputText t:type="number" class="uk-input" id="form-select-jaar" binding="#{jaar}" t:min="1950" t:max="#{bestellingController.jaar}"></h:inputText>
+                    </div>
+                </div>
+                    
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <h:commandButton class="uk-button uk-button-primary" value="Zoek" action='#{menuKaartController.zoekOpJaar(jaar.value)}'/>
+                    </div>   
+                </div>    
+                </h:form>
+                
+                <ui:repeat value="#{menuKaartController.menuKaarten}" var="m">
+                    <li>
+                        Menukaart van chef-kok #{m.keukenpersoneel.naam} (voor jaartal: #{m.jaar} en seizoen #{m.seizoen}) met volgende gerechten:
+                        <ul><ui:repeat value="#{m.gerechten}" var="g">
+                            <li>#{g.naam}</li>
+                        </ui:repeat></ul>
+                    </li>
+                </ui:repeat>
+                
+                <h:form>
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <h:commandButton class="uk-button uk-button-primary" value="Home" action='index'/>
+                    </div>   
+                </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

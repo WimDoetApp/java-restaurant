@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -29,6 +30,8 @@ public class Gerecht implements Serializable {
     private double actuelePrijs;
     @OneToMany(mappedBy = "gerecht")
     private List<BesteldItem> besteldeItems = new ArrayList<BesteldItem>();
+    @ManyToMany(mappedBy = "gerechten")
+    private List<MenuKaart> menuKaarten = new ArrayList<>();
     
     public Gerecht(){
         
@@ -64,6 +67,14 @@ public class Gerecht implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<MenuKaart> getMenuKaarten() {
+        return menuKaarten;
+    }
+
+    public void setMenuKaarten(List<MenuKaart> menuKaarten) {
+        this.menuKaarten = menuKaarten;
     }
 
     @Override

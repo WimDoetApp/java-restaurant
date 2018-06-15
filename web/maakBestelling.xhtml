@@ -76,7 +76,7 @@ and open the template in the editor.
                         </h:column>
                         <h:column>
                             <f:facet name = "header">verwijder</f:facet>
-                            <h:commandLink class="uk-button uk-button-primary" action="#{bestellingController.removeBesteldItem(b.gerecht.id, b.aantal, b.toegepastePrijs)}"><span uk-icon='trash'></span></h:commandLink>
+                            <h:commandLink class="uk-button uk-button-primary" action="#{bestellingController.removeBesteldItem(b.id)}"><span uk-icon='trash'></span></h:commandLink>
                         </h:column>
                     </h:dataTable>
                 </div>

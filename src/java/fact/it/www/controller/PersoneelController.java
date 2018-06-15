@@ -8,6 +8,7 @@ package fact.it.www.controller;
 import fact.it.www.beans.Administrator;
 import fact.it.www.beans.IngangTeller;
 import fact.it.www.beans.PoetsPersoon;
+import fact.it.www.beans.Zaalverantwoordelijke;
 import fact.it.www.dao.PersoneelFacade;
 import fact.it.www.entity.Keukenpersoneel;
 import fact.it.www.entity.Personeel;
@@ -122,6 +123,37 @@ public class PersoneelController implements Serializable{
         ingangTeller.setAantal(5);
         System.out.println("####################################################################");
 
+        return "index";
+    }
+    
+    public String testUitbreidingObserverDecorator(){
+        //ingangteller opvragen
+        IngangTeller ingangTeller = IngangTeller.getInstance();
+        
+        //begin uitvoer
+        System.out.println("####################################################################");
+        System.out.println("Na het decoreren van Julie met de verantwoordelijkheid Zaalverantwoordelijke\n");
+        
+        //nieuwe personeelslid toevoegen
+        Zaalpersoneel julie = new Zaalpersoneel("Julie");
+        
+        //verantwoordelijkheid toevoegen aan personeelslid
+        Zaalverantwoordelijke zaalverantwoordelijke = new Zaalverantwoordelijke();
+        zaalverantwoordelijke.setPersoneel(julie);
+        
+        //geef instructies
+        zaalverantwoordelijke.geefInstucties();
+        
+        //verdere uitvoer
+        System.out.println("\nNa het toevoegen van Julie als observer en het veranderen van de ingangteller naar 7\n");
+        
+        //het personeelslid laten observen en klanten laten binnenkomen
+        ingangTeller.attachObserver(zaalverantwoordelijke);
+        ingangTeller.setAantal(7);
+        
+        //einduitvoer
+        System.out.println("\n####################################################################");
+        
         return "index";
     }
 }

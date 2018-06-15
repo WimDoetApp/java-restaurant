@@ -18,6 +18,21 @@ and open the template in the editor.
             <h1 class="uk-heading-bullet">Personeelsleden</h1>
             
             <div class="uk-overflow-auto">
+            <h:form>
+            <div class="uk-margin">
+                <h:commandButton value="test uitbreiding strategypatroon" action="#{bestellingController.testUitbreidingStrategy()}" class="uk-button uk-button-primary"/>
+            </div>
+            <div class="uk-margin">
+                <h:commandButton value="test uitbreiding observer/decorator patroon" action="#{personeelController.testUitbreidingObserverDecorator()}" class="uk-button uk-button-primary"/>
+            </div>
+            <div class="uk-margin">
+                <h:commandButton value="menukaart aanmaken" action="maakMenuKaart" class="uk-button uk-button-primary"/>
+            </div>
+            <div class="uk-margin">
+                <h:commandButton value="Menukaarten tonen" action="#{menuKaartController.overzichtMenuKaarten()}" class="uk-button uk-button-primary"/>
+            </div>
+            </h:form>
+                
             <h:dataTable var="p" value="#{personeelController.findAll()}" class="uk-table uk-table-striped">
                 <h:column>    				
                     <f:facet name = "header">Naam</f:facet>    				
